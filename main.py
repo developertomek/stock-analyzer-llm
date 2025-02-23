@@ -18,4 +18,5 @@ def get_stock_data(symbol: str):
     hist = stock.history(period="1mo", interval="1d")
     if hist.empty:
         raise HTTPException(status_code=404, detail="Stock symbol not found")
+    hist = hist[['Open', 'Close', 'High', 'Low', 'Volume']]
     return hist.to_dict()
