@@ -1,13 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/styles.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/styles.css" />
     <script src="/static/scripts.js" defer></script>
     <title>stock-analyzer-llm</title>
-</head>
-<body>
-    Hello World!
-</body>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Stock analyzer</h1>
+      <div>
+        <label for="model-select">Select Model:</label>
+        <select id="model-select" onchange="enableSymbolSelect()">
+          <option value="" selected>Select a model</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="symbol">Select a stock symbol:</label>
+        <select id="symbol" class="rounded" disabled>
+          <option value="AAPL">Apple</option>
+          <option value="NVDA">Nvidia</option>
+          <option value="GOOGL">Google</option>
+          <option value="MSFT">Microsoft</option>
+          <option value="AMZN">Amazon</option>
+        </select>
+        <button
+          id="analyze-btn"
+          class="rounded"
+          onclick="analyzeStock()"
+          disabled
+        >
+          Analyze
+        </button>
+      </div>
+      <p id="result" class="rounded"></p>
+    </div>
+  </body>
 </html>
