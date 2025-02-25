@@ -39,7 +39,6 @@ def get_models():
 @app.post("/analyze_stock")
 def analyze_stock(symbol: str, model: str):
     stock_data = get_stock_data(symbol)
-    print(stock_data)
     prompt = f"""Analyze the following stock data:
     Current data for {symbol}: {stock_data}
 
