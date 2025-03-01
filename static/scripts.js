@@ -2,7 +2,7 @@ const analyzeBtn = document.getElementById("analyze-btn");
 const result = document.getElementById("result");
 const modelSelect = document.getElementById("model-select");
 const option = document.createElement("option");
-const symbol = document.getElementById("symbol");
+const symbolSelect = document.getElementById("symbol-select");
 let stockChart = null;
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -21,17 +21,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 function enableSymbolSelect(isSelected) {
-  symbol.disabled = !isSelected;
+  symbolSelect.disabled = !isSelected;
   analyzeBtn.disabled = !isSelected;
 }
 
 async function analyzeStock() {
   try {
     analyzeBtn.disabled = true;
-    symbol.disabled = true;
+    symbolSelect.disabled = true;
+    modelSelect.disabled = true;
     result.innerHTML = '<div class="loader"></div>';
 
-    const symbolValue = symbol.value;
+    const symbolValue = symbolSelect.value;
     const model = modelSelect.value;
     const stockResponse = await fetch(`/stock/${symbolValue}`);
     const stockData = await stockResponse.json();
@@ -48,7 +49,8 @@ async function analyzeStock() {
     result.innerText = "Error analyzing stock. Please try again.";
   } finally {
     analyzeBtn.disabled = false;
-    symbol.disabled = false;
+    symbolSelect.disabled = false;
+    modelSelect.disabled = false;
   }
 }
 
