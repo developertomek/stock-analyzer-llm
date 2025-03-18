@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+yfinance
+requests
+ollama
+python-dotenv
+pytest
+fastapi-cors
