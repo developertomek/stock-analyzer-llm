@@ -13,3 +13,7 @@ export interface Instrument {
 export interface PopularInstruments {
   popular_instruments: Instrument[];
 }
+
+const priceDataKeys = ['open', 'close', 'high', 'low', 'volume'] as const;
+
+export type PriceData = Record<(typeof priceDataKeys)[number], number[]>;
