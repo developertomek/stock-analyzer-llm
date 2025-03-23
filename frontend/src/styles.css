@@ -1,2 +1,21 @@
 @import "tailwindcss";
 @import "tailwindcss/utilities";
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #1c1c1c;
+  color: #fefefe;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
