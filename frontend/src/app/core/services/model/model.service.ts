@@ -1,18 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
+import { Model } from '../../../shared/types/model.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class MarketDataService {
+export class ModelService {
   private http = inject(HttpClient);
 
-  getPopularInstruments() {
-    return this.http.get(`${environment.apiUrl}/instruments/popular`);
-  }
-
-  getInstrumentData(symbol: string) {
-    return this.http.get(`${environment.apiUrl}/instruments/${symbol}`);
+  getAll() {
+    return this.http.get<{ models: Model[] }>(`${environment.apiUrl}/models`);
   }
 }
