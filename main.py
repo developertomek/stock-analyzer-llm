@@ -1,9 +1,12 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 import yfinance as yf
 import ollama
 from typing import Optional
 
 app = FastAPI(root_path="/api/v1")
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+
 
 @app.get("/")
 def read_root():
