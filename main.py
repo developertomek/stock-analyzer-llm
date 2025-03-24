@@ -92,9 +92,7 @@ def get_popular_instruments(limit: Optional[int] = 20):
         {"name": "Amazon", "symbol": "AMZN", "type": "stock", "sector": "Consumer Cyclical"},
         {"name": "Meta", "symbol": "META", "type": "stock", "sector": "Technology"},
         {"name": "Netflix", "symbol": "NFLX", "type": "stock", "sector": "Communication Services"},
-        {"name": "Alphabet", "symbol": "GOOGL", "type": "stock", "sector": "Technology"},
-        
-        {"name": "Gold", "symbol": "GC=F", "type": "commodity", "category": "Precious Metal"},
+        {"name": "Alphabet", "symbol": "GOOGL", "type": "stock", "sector": "Technology"},    
     ]
     
     result = []
