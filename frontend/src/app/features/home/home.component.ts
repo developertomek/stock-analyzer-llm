@@ -12,7 +12,7 @@ import { PopularInstrumentsComponent } from './components/popular-intruments/pop
   imports: [CommonModule, FormsModule, PopularInstrumentsComponent],
   template: `
     <h1 class="text-4xl mt-16 font-bold text-center">Stock Analyzer</h1>
-    <div class="w-2xl mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto px-4 py-8">
       <div class="mb-6">
         @if (error().model) {
         <div class="mt-2 text-sm text-red-600">
@@ -58,7 +58,10 @@ import { PopularInstrumentsComponent } from './components/popular-intruments/pop
           <div class="h-20 bg-gray-200 rounded w-full opacity-50"></div>
         </div>
         } @else {
-        <app-popular-instruments [instruments]="popularInstruments()" />
+        <app-popular-instruments
+          [instruments]="popularInstruments()"
+          (onAnalyze)="onAnalyze($event)"
+        />
         }
       </div>
     </div>
@@ -111,5 +114,9 @@ export class HomeComponent {
         this.isLoading.update((val) => ({ ...val, instrument: false }));
       },
     });
+  }
+
+  onAnalyze(symbol: string) {
+    console.log(symbol);
   }
 }
