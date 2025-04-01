@@ -54,6 +54,6 @@ import { Instrument } from '../../../../shared/types/instrument.interface';
 })
 export class PopularInstrumentsComponent {
   instruments = input.required<Instrument[]>();
-  isModelSelected = input<boolean>(true);
+  isModelSelected = input<boolean>();
   onAnalyze = output<string>();
 }
