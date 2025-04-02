@@ -17,3 +17,7 @@ export interface PopularInstruments {
 const priceDataKeys = ['open', 'close', 'high', 'low', 'volume'] as const;
 
 export type PriceData = Record<(typeof priceDataKeys)[number], number[]>;
+
+export interface AnalyzeResponse {
+  response: string;
+}

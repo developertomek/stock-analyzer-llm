@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import yfinance as yf
 import ollama
+from pydantic import BaseModel
 from typing import Optional
 
 app = FastAPI(root_path="/api/v1")
@@ -38,16 +39,21 @@ def get_models():
         raise HTTPException(status_code=500, detail=str(e))
 
 
+class StockAnalysisRequest(BaseModel):
+    symbol: str
+    model: str
+
+
 @app.post("/instruments/analyze")
-def analyze_stock(symbol: str, model: str):
-    if not symbol:
+def analyze_stock(request: StockAnalysisRequest):
+    if not request.symbol:
         raise HTTPException(status_code=400, detail="Stock symbol is required")
-    if not model:
+    if not request.model:
         raise HTTPException(status_code=400, detail="Model is required")
     
-    stock_data = get_stock_data(symbol)
+    stock_data = get_stock_data(request.symbol)
     prompt = f"""Analyze the following stock data:
-    Current data for {symbol}: {stock_data}
+    Current data for {request.symbol}: {stock_data}
 
     Please provide a detailed analysis including:
     1. Overall Market Trend:
@@ -71,7 +77,7 @@ def analyze_stock(symbol: str, model: str):
 
     Base your analysis on the provided data and maintain a professional, analytical approach."""
     try:
-        response = ollama.chat(model=model, messages=[{
+        response = ollama.chat(model=request.model, messages=[{
             "role": "user",
             "content": prompt
         }])

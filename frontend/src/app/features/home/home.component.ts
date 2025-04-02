@@ -61,10 +61,43 @@ import { PopularInstrumentsComponent } from './components/popular-intruments/pop
         <app-popular-instruments
           [instruments]="popularInstruments()"
           (onAnalyze)="onAnalyze($event)"
-          [isModelSelected]="!!selectedModel"
+          [isModelSelected]="!!selectedModel && !isAnalyzing()"
         />
         }
       </div>
+
+      @if (isAnalyzing()) {
+      <div class="mt-8">
+        <h2 class="text-sm font-bold mb-4">
+          Analyzing {{ analyzedSymbol() }}...
+        </h2>
+        <div class="animate-pulse space-y-4">
+          <div class="h-40 bg-gray-200 rounded w-full opacity-50"></div>
+        </div>
+      </div>
+      } @else if (analysisResult()) {
+      <div class="mt-8 mb-12">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-sm font-bold">
+            Analysis Results: {{ analyzedSymbol() }}
+          </h2>
+          <button
+            (click)="clearAnalysis()"
+            class="text-xs text-gray-500 hover:text-gray-700"
+          >
+            Clear
+          </button>
+        </div>
+        <div
+          class="bg-white rounded-lg shadow-md p-4 overflow-auto max-h-[500px]"
+        >
+          <div
+            class="prose prose-sm max-w-none text-black"
+            [innerHTML]="formattedAnalysis()"
+          ></div>
+        </div>
+      </div>
+      }
     </div>
   `,
 })
@@ -83,6 +116,10 @@ export class HomeComponent {
   });
   models: WritableSignal<Model[]> = signal([]);
   popularInstruments: WritableSignal<Instrument[]> = signal([]);
+
+  isAnalyzing = signal(false);
+  analyzedSymbol = signal('');
+  analysisResult = signal('');
 
   ngOnInit() {
     this.getModels();
@@ -117,7 +154,31 @@ export class HomeComponent {
     });
   }
 
+  formattedAnalysis() {
+    return this.analysisResult().replace(/\n/g, '<br>');
+  }
+
+  clearAnalysis() {
+    this.analysisResult.set('');
+    this.analyzedSymbol.set('');
+  }
+
   onAnalyze(symbol: string) {
-    console.log(symbol);
+    this.isAnalyzing.set(true);
+    this.analyzedSymbol.set(symbol);
+
+    this.marketDataService.analyzeStock(symbol, this.selectedModel).subscribe({
+      next: ({ response }) => {
+        this.analysisResult.set(response);
+        this.isAnalyzing.set(false);
+      },
+      error: (error) => {
+        this.error.update((val) => ({
+          ...val,
+          instrument: `Error analyzing ${symbol}: ${error.message}`,
+        }));
+        this.isAnalyzing.set(false);
+      },
+    });
   }
 }
